@@ -1,6 +1,6 @@
 services:
   wireguard:
-    image: wireguard:riscv64-test
+    image: ghcr.io/jplegat/wireguard-riscv64:latest
     container_name: wireguard
     cap_add:
       - NET_ADMIN

@@ -45,18 +45,20 @@ docker buildx build \
   -t wireguard:riscv64-test .
 ```
 
-### Transferring the image to the SBC
+### Pushing the image to GitHub Container Registry
+
+Push to `ghcr.io` so the SBC can pull directly — no manual file transfer needed.
 
 ```bash
-# On the build machine — export the image
-docker save wireguard:riscv64-test | gzip > wireguard-riscv64.tar.gz
+# Authenticate (requires a GitHub PAT with write:packages scope)
+echo YOUR_GITHUB_TOKEN | docker login ghcr.io -u jplegat --password-stdin
 
-# Transfer to the SBC
-scp wireguard-riscv64.tar.gz ubuntu@your-sbc-ip:~
-
-# On the SBC — load the image
-docker load < wireguard-riscv64.tar.gz
+# Tag and push
+docker tag wireguard:riscv64-test ghcr.io/jplegat/wireguard-riscv64:latest
+docker push ghcr.io/jplegat/wireguard-riscv64:latest
 ```
+
+On the SBC, Docker will pull the image automatically when you start the stack.
 
 ---
 
@@ -72,13 +74,12 @@ docker buildx build \
   -f Dockerfile.riscv64 \
   -t wireguard:riscv64-test .
 
-# Re-export and transfer
-docker save wireguard:riscv64-test | gzip > wireguard-riscv64.tar.gz
-scp wireguard-riscv64.tar.gz ubuntu@your-sbc-ip:~
+# Re-tag and push to ghcr.io
+docker tag wireguard:riscv64-test ghcr.io/jplegat/wireguard-riscv64:latest
+docker push ghcr.io/jplegat/wireguard-riscv64:latest
 
-# On the SBC — stop the stack, reload, restart
-docker compose -f docker-compose.riscv64.yml down
-docker load < wireguard-riscv64.tar.gz
+# On the SBC — pull and restart
+docker compose -f docker-compose.riscv64.yml pull
 docker compose -f docker-compose.riscv64.yml up -d
 ```
 
