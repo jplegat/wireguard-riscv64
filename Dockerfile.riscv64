@@ -1,0 +1,49 @@
+# syntax=docker/dockerfile:1
+
+FROM debian:trixie-slim
+
+# set version label
+ARG BUILD_DATE
+ARG VERSION
+LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
+LABEL maintainer="thespad"
+
+RUN \
+  echo "**** install dependencies ****" && \
+  apt-get update && \
+  apt-get install -y --no-install-recommends \
+    bc \
+    ca-certificates \
+    curl \
+    grep \
+    ipcalc \
+    iproute2 \
+    iptables \
+    kmod \
+    libcap2-bin \
+    net-tools \
+    nftables \
+    openresolv \
+    qrencode \
+    wireguard-tools && \
+  echo "**** patch wg-quick ****" && \
+  sed -i 's|\[\[ $proto == -4 \]\] && cmd sysctl -q net\.ipv4\.conf\.all\.src_valid_mark=1|[[ $proto == -4 ]] \&\& [[ $(sysctl -n net.ipv4.conf.all.src_valid_mark) != 1 ]] \&\& cmd sysctl -q net.ipv4.conf.all.src_valid_mark=1|' /usr/bin/wg-quick && \
+  rm -rf /etc/wireguard && \
+  ln -s /config/wg_confs /etc/wireguard && \
+  printf "Linuxserver.io version: ${VERSION}\nBuild-date: ${BUILD_DATE}" > /build_version && \
+  echo "**** clean up ****" && \
+  apt-get clean && \
+  rm -rf \
+    /tmp/* \
+    /var/lib/apt/lists/* \
+    /var/tmp/*
+
+# add local files
+COPY /root /
+
+RUN chmod +x /entrypoint-riscv64.sh
+
+# ports and volumes
+EXPOSE 51820/udp
+
+ENTRYPOINT ["/entrypoint-riscv64.sh"]

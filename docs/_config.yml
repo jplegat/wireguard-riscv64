@@ -1,0 +1,31 @@
+title: WireGuard RISC-V 64
+description: Build and run the WireGuard Docker container on RISC-V 64
+theme: just-the-docs
+
+color_scheme: dark
+
+url: ""
+baseurl: ""
+
+# Footer
+footer_content: "WireGuard RISC-V 64 &mdash; based on LinuxServer.io WireGuard"
+
+# Aux links in top nav
+aux_links:
+  "GitHub":
+    - "https://github.com/linuxserver/docker-wireguard"
+
+aux_links_new_tab: true
+
+# Back to top
+back_to_top: true
+back_to_top_text: "Back to top"
+
+# Heading anchor links
+heading_anchors: true
+
+# Search
+search_enabled: true
+
+plugins:
+  - jekyll-seo-tag
