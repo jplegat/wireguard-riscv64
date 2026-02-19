@@ -4,8 +4,8 @@ remote_theme: just-the-docs/just-the-docs
 
 color_scheme: dark
 
-url: ""
-baseurl: ""
+url: "https://jplegat.github.io"
+baseurl: "/wireguard-riscv64"
 
 # Footer
 footer_content: "WireGuard RISC-V 64 &mdash; based on LinuxServer.io WireGuard"
