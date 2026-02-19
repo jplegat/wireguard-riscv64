@@ -1,6 +1,6 @@
 title: WireGuard RISC-V 64
 description: Build and run the WireGuard Docker container on RISC-V 64
-theme: just-the-docs
+remote_theme: just-the-docs/just-the-docs
 
 color_scheme: dark
 
