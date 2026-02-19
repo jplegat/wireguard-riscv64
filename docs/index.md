@@ -10,4 +10,4 @@ A Docker image for running [WireGuard](https://www.wireguard.com/) VPN on RISC-V
 
 ## Quick links
 
-- [Build & Run Guide]({% link riscv64.md %})
+- [Build & Run Guide]({{ site.baseurl }}/riscv64)
